@@ -1,11 +1,11 @@
-import { util } from './util.js';
 import { audio } from './audio.js';
-import { theme } from './theme.js';
+import { comment } from './comment.js';
+import { confetti } from './confetti.js';
+import { progress } from './progress.js';
 import { session } from './session.js';
 import { storage } from './storage.js';
-import { comment } from './comment.js';
-import { progress } from './progress.js';
-import { confetti } from './confetti.js';
+import { theme } from './theme.js';
+import { util } from './util.js';
 
 export const guest = (() => {
 
@@ -26,6 +26,24 @@ export const guest = (() => {
             document.getElementById('hour').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             document.getElementById('minute').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             document.getElementById('second').innerText = Math.floor((distance % (1000 * 60)) / 1000);
+        }, 1000);
+    };
+
+    const countDownDateBlitar = () => {
+        const until = document.getElementById('blitar')?.getAttribute('data-time')?.replace(' ', 'T');
+        if (!until) {
+            return;
+        }
+
+        const count = (new Date(until)).getTime();
+
+        setInterval(() => {
+            const distance = Math.abs(count - Date.now());
+
+            document.getElementById('day2').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById('hour2').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('minute2').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('second2').innerText = Math.floor((distance % (1000 * 60)) / 1000);
         }, 1000);
     };
 
@@ -121,6 +139,7 @@ export const guest = (() => {
         comment.init();
 
         countDownDate();
+        countDownDateBlitar();
         information = storage('information');
 
         if (session.isAdmin()) {
