@@ -1,12 +1,12 @@
-import { dto } from './dto.js';
 import { card } from './card.js';
+import { dto } from './dto.js';
 import { like } from './like.js';
-import { util } from './util.js';
-import { theme } from './theme.js';
+import { pagination } from './pagination.js';
+import { HTTP_DELETE, HTTP_GET, HTTP_POST, HTTP_PUT, request } from './request.js';
 import { session } from './session.js';
 import { storage } from './storage.js';
-import { pagination } from './pagination.js';
-import { request, HTTP_GET, HTTP_POST, HTTP_DELETE, HTTP_PUT } from './request.js';
+import { theme } from './theme.js';
+import { util } from './util.js';
 
 export const comment = (() => {
 
@@ -367,7 +367,12 @@ export const comment = (() => {
                 comments.setAttribute('data-loading', 'false');
                 comments.innerHTML = res.data.map((c) => card.renderContent(c)).join('');
                 return res;
-            });
+            })
+            .catch ((error) => {
+                comments.setAttribute('data-loading', 'false');
+                comments.innerHTML = []
+                return []
+            }) 
     };
 
     const showOrHide = (button) => {
